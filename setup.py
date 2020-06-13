@@ -11,7 +11,7 @@ with open('README.md') as readme_file:
 
 setup(
     name="mongo2json",
-    version="1.0.0",
+    version="1.0.1",
     author="drunckoder",
     author_email="drunckoder@gmail.com",
     description="Converts mongo shell JSON output to a valid JSON or a Python object",

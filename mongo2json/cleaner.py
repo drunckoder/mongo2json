@@ -1,5 +1,6 @@
 import re
-from typing import Pattern, List
+from functools import reduce
+from typing import Pattern, List, Iterable
 
 patterns: List[Pattern[str]] = [
     re.compile(pattern=r'ObjectId\((.*)\)'),
@@ -10,21 +11,21 @@ patterns: List[Pattern[str]] = [
 ]
 
 
-def apply_rule(pattern: Pattern[str], string: str) -> str:
+def apply_pattern(pattern: Pattern[str], string: str) -> str:
     return pattern.sub(repl=r'\1', string=string)
 
 
 def clean_line(line: str) -> str:
-    for pattern in patterns:
-        line = apply_rule(pattern=pattern, string=line)
+    return reduce(
+        lambda string, pattern: apply_pattern(pattern=pattern, string=string),
+        patterns,
+        line
+    )
 
-    return line
+
+def clean_string(string: str) -> Iterable[str]:
+    return map(clean_line, string.splitlines())
 
 
 def clean(string: str) -> str:
-    clean_string = ''
-
-    for line in string.splitlines():
-        clean_string += clean_line(line=line)
-
-    return clean_string
+    return ''.join(clean_string(string=string))
