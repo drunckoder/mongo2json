@@ -1,2 +1,2 @@
 pytest==5.4.*
-orjson==2.6.*
+orjson==3.9.*
